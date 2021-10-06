@@ -73,8 +73,8 @@ describe("App", () => {
 
     // Only way to set data with composition API.
     wrapper.vm.count = 1;
-    // await nextTick();
-    await flushPromises(); // Wait for VueX actions, or network requests.
+    // await nextTick(); // Wait for effects that's track by vue to finish (DOM updates by Vue)
+    await flushPromises(); // Wait for other async actions to finish (VueX actions, Network requests)
 
     expect(wrapper.html()).toContain("count: 1. Count is odd.");
   });
@@ -127,5 +127,19 @@ describe("App", () => {
     await emitButton.trigger("click");
     expect(wrapper.emitted("myEvent")).toHaveLength(2);
     expect(wrapper.emitted("myEvent")![1]).toEqual([1, "odd"]);
+  });
+
+  test("Should conditionally render admin link", async () => {
+    const wrapper = mount(App);
+
+    // isAdmin is false by default
+    expect(wrapper.get('[data-test="profile-link"]')).toBeTruthy();
+    expect(wrapper.find('[data-test="admin-link"]').exists()).toBe(false);
+
+    wrapper.vm.isAdmin = true;
+    await nextTick();
+
+    expect(wrapper.get('[data-test="profile-link"]')).toBeTruthy();
+    expect(wrapper.get('[data-test="admin-link"]')).toBeTruthy();
   });
 });
