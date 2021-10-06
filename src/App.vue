@@ -2,6 +2,7 @@
   <nav>
     <a href="/profile" data-test="profile-link">Profile</a>
     <a v-if="isAdmin" href="/admin" data-test="admin-link">Admin</a>
+    <a v-show="isAdmin" href="/manage" data-test="manage-link">Manage</a>
   </nav>
 
   <p>Current Post ID: {{ route.params.postId }}</p>

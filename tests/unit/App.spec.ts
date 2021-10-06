@@ -135,11 +135,13 @@ describe("App", () => {
     // isAdmin is false by default
     expect(wrapper.get('[data-test="profile-link"]')).toBeTruthy();
     expect(wrapper.find('[data-test="admin-link"]').exists()).toBe(false);
+    expect(wrapper.find('[data-test="manage-link"]').isVisible()).toBe(false);
 
     wrapper.vm.isAdmin = true;
     await nextTick();
 
     expect(wrapper.get('[data-test="profile-link"]')).toBeTruthy();
-    expect(wrapper.get('[data-test="admin-link"]')).toBeTruthy();
+    expect(wrapper.find('[data-test="admin-link"]').exists()).toBeTruthy();
+    expect(wrapper.find('[data-test="manage-link"]').isVisible()).toBe(true);
   });
 });
